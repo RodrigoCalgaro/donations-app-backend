@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "donations-app",
+    "password": "donations-app",
+    "database": "donations-dev",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "donations-app",
+    "password": "donations-app",
+    "database": "donations-test",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql",
+    "logging": false
+  },
+  "production": {
+    "username": "b0f441f1fd5a81",
+    "password": "10b9fa97",
+    "database": "heroku_1b98b26d1317bad",
+    "host": "us-cdbr-east-05.cleardb.net",
+    "port": 3306,
+    "dialect": "mysql",
+    "logging": false
+  }
+}
