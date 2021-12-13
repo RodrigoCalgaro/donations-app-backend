@@ -5,7 +5,16 @@
   "scripts": {
     "start": "node ./bin/www",
     "watch": "nodemon ./bin/www",
-    "test": "jest --runInBand"
+    "test": "npm run test:endpoints && npm run test:services",
+    "test:endpoints": "npm run dropTestDatabase && jest __tests__/endpoints/__index.test.js --detectOpenHandles",
+    "test:services": "npm run dropTestDatabase && jest __tests__/services/__index.test.js --detectOpenHandles",
+    "dropTestDatabase": "cross-env NODE_ENV=test node helpers/dropDatabase.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -27,6 +36,7 @@
     "swagger-ui-express": "^4.2.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "jest": "^27.4.4",
     "nodemon": "^2.0.15",
     "supertest": "^6.1.6"

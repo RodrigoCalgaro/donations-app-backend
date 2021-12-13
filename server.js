@@ -12,44 +12,48 @@ const passport = require('passport');
 
 const app = express();
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
 app.use(cors());
 
-// Swagger Documentation
-const swaggerUI = require('swagger-ui-express')
-const swaggerJsDoc = require('swagger-jsdoc')
+if (process.env.NODE_ENV != "test") {
+  // morgan logs
+  app.use(logger('dev'));
 
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: "Donations App",
-      version: "1.0.0"
-    }
-  },
-  apis: ["./routes/*.js"]
+  // Swagger Documentation
+  const swaggerUI = require('swagger-ui-express')
+  const swaggerJsDoc = require('swagger-jsdoc')
+
+  const swaggerOptions = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: "Donations App",
+        version: "1.0.0"
+      }
+    },
+    apis: ["./routes/*.js"]
+  }
+
+  const swaggerDocs = swaggerJsDoc(swaggerOptions);
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
+  console.log(`\n\nSwagger documentation on: http://localhost:3000/api-docs\n\n`);
+  
+  
+  //Sync Database
+  models.sequelize.sync({
+    force: false
+  }).then(() => {
+      console.log('Database Sync OK!');
+  }).catch(function (err) {
+    console.log(err, "Error to sync database: " + err);
+  });
+
 }
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-
-console.log(`\n\nSwagger documentation on: http://localhost:3000/api-docs\n\n`);
-
-
-
-
-//Sync Database
-models.sequelize.sync({
-  force: false
-}).then(function () {
-  console.log('Database Sync OK!');
-}).catch(function (err) {
-  console.log(err, "Error to sync database: " + err);
-});
 
 // Passport
 require("./helpers/passport");
