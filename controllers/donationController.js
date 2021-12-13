@@ -26,12 +26,14 @@ donationController.getAll = async (req, res) => {
     pageSize = parseInt(req.query.pageSize);
   }
 
-  let pageNumber = 1
+  let page = 0
+  let pageNumber = 0
   if (req.query.pageNumber){
     pageNumber = parseInt(req.query.pageNumber)
+    page = pageNumber - 1
   }
 
-  let offset = pageNumber - 1
+  let offset = (page * pageSize)
 
   try {
 

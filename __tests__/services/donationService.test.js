@@ -44,7 +44,7 @@ describe('Donation Service', () => {
         let userId = 1;
 
         let newData = {
-             date,
+            date,
             amount,
             collectId,
             userId
